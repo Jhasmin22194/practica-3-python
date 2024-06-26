@@ -1,0 +1,3 @@
+ID,Artículo,Cantidad,Precio
+1,Golosina,34,50
+2,Azucar,20,40

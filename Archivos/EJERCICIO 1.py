@@ -45,37 +45,36 @@ def añadir_cliente(nombre, telefono):
         file.write(f"{nombre},{telefono}\n")
     print(f"Cliente {nombre} añadido con éxito.")
 
-
 def eliminar_telefono(nombre):
     try:
         with open(archivo, 'r') as file:
             lineas = file.readlines()
         
         with open(archivo, 'w') as file:
-            encontrado = False
+            no_encontrado = True
             for linea in lineas:
                 cliente = linea.strip().split(',')
-                if cliente[0] != nombre:
+                if cliente[0].upper() != nombre.upper():
                     file.write(linea)
                 else:
+                    no_encontrado = False
                     print("Esta seguro de eliminar S/N")
                     res=input()
-                    if res.lower=='S':
-                        file.write(f"{cliente[0]}\n")
-                    encontrado = True
-        if encontrado:
-            print(f"Cliente {nombre} eliminado con éxito.")
-        else:
-            print("Cliente no encontrado.")
+                    if res.upper() == 'S':
+                        file.write(f"{cliente[0]}\n")     
+                        print("Telefono eliminado correctamente")            
+        if no_encontrado:
+            print("Cliente no encontrado")
     except FileNotFoundError:
         print("El archivo de contactos no existe.")
         
 def mostrar_contactos():
     with open(archivo, mode='r') as file:
         datos = file.readlines() 
+        print("*"*30)
         for i in datos:
-            print(i)
-        
+            print(i, end="")
+        print("*"*30)
         
 def menu():
     print("Elige una opcion")
@@ -89,7 +88,6 @@ def menu():
 
 # Crear el archivo
 crear_archivo()
-
 while (True):
     opc=menu()
     if opc == 1:

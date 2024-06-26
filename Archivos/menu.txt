@@ -1,0 +1,5 @@
+N�mero,Nombre,Tipo,Precio
+1,Plato Pace�o,A,15
+2,Plato Pace�o,B,20
+3,Picante Mixto,A,40
+4,Trucha ahumada,A,35

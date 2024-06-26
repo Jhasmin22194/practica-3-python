@@ -1,0 +1,13 @@
+Nombre,Apellido,Cedula
+Alice,Smith,12345678
+Bob,Johnson,87654321
+Charlie,Williams,11223344
+David,Brown,99887766
+Eva,Jones,55667788
+Frank,Garcia,33445566
+Grace,Miller,11224455
+Hank,Martinez,66778899
+Ivy,Wilson,44556677
+Jack,Anderson,22334455
+Kara,Thomas,77889900
+Liam,Moore,98765432

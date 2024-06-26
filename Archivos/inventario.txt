@@ -1,0 +1,3 @@
+Nombre,Cantidad,Precio
+Renox,30,34
+Oso,40,59

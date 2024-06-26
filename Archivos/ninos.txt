@@ -1,0 +1,2 @@
+Nombre,Edad,Nombre del Padre/Madre
+Samuel,12,Maria

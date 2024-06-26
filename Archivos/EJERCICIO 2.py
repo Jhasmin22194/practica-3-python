@@ -27,18 +27,19 @@ def añadir_estudiante(ci,pat,mat,nom,prim,seg,ter):
     except FileNotFoundError:
         print("El archivo de contactos no existe.")
 
-def consultar_calificaciones(est):
+def consultar_calificaciones(ci):
     try:
         no_encontrado=True
         with open(archivo,'r') as file:
             lineas=file.readlines()
             for linea in lineas:
-                if linea[3].lower()==est.lower():
+                palabra=linea.strip().split(",")
+                if palabra[0] == ci:
                     no_encontrado=False
-                    print("Estudiante ",est," encontrado")
-                    print("Primer parcial: ",linea[4])
-                    print("Segundo parcial: ",linea[5])
-                    print("Tercer parcial: ",linea[6])
+                    print("Estudiante de cedula ",ci," encontrado")
+                    print("Primer parcial: ",palabra[4])
+                    print("Segundo parcial: ",palabra[5])
+                    print("Tercer parcial: ",palabra[6])
         if no_encontrado:
             print("Estudiante no enontrado")
         
@@ -51,22 +52,59 @@ def eliminar_registro(ci):
         lineas=file.readlines()
     with open(archivo,'w') as file:
         for linea in lineas:
-            if linea[0] == ci.lower():
+            p=linea.strip().split(',')
+            if p[0] == ci:
                 no_encontrado=False
                 print("Esta seguro de eliminar al estudiante S/N")
                 res=input()
-                if res.lower=='N':
-                    break
+                if res.upper()=='N':
+                    print("Eliminacion cancelada")
+                    file.write(linea)
+                else:
+                    print("Registro eliminado")
             else:
                 file.write(linea)
-                encontrado = True
+                no_encontrado = True
         if no_encontrado:
             print("Estudiante no encontrado")
                     
 def mostrar_aprobados():
-    pass
-def mostrar_orenados():
-    pass
+    try:
+        with open(archivo,'r') as file:
+            no_en=True
+            contenido = file.readlines()
+            print(" ************APROBADOS***********")
+            for linea in contenido:
+                palabras = linea.strip().split(",")
+                try:
+                    num1 = float(palabras[6]) 
+                    num2 = float(palabras[4])
+                    num3 = float(palabras[5])
+                    prom = (num1 + num2 + num3) / 3
+                    if prom > 50.0:
+                        no_en = False
+                        print(linea, end="")
+                except ValueError:
+                        print(f"Error de conversión en la línea: {linea}")
+            if no_en:
+                print("No hay alumnos aprobados")
+    except Exception as e:
+        print(f"Se ha producido un error: {e}")
+def mostrar_ordenados():
+    ordenado=[]
+    with open(archivo,'r') as file:
+        lineas=file.readlines()
+        for linea in lineas:
+            datos=linea.strip().split(',')
+            ordenado.append(datos)
+    ordenado.sort(key=lambda x:x[1])
+    with open(archivo, 'w') as file:
+        for linea in ordenado:
+            file.write(','.join(linea) + '\n')
+    with open(archivo,'r') as file:
+        lineas=file.readlines()
+        for linea in lineas:
+            print(linea, end="")
     
 def menu():
     print("Elige una opcion")
@@ -88,9 +126,8 @@ while (True):
     if opc == 1:
         crear_archivo()
     if opc == 2:
-        nom=input("Nombre: ")
-        num=input("Telefono: ")
-        añadir_estudiante(nom,num)
+        ci=input("Ingrese la cedula: ")
+        consultar_calificaciones(ci)
 
     if opc == 3:
         ci=input("Cedula: ")
@@ -102,11 +139,12 @@ while (True):
         ter=float(input("Tercer P: "))
         añadir_estudiante(ci,pat,mat,nom,prim,seg,ter)
     if opc == 4:
-        ci=input("Ingrece la cedula del estudiante a eliminar")
+        ci=input("Ingrece la cedula del estudiante a eliminar: ")
+        eliminar_registro(ci)
     if opc == 5:
-        pass
+        mostrar_aprobados()
     if opc == 6:
-        pass
+        mostrar_ordenados()
     if opc == 7:
         break
 
